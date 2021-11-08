@@ -9,18 +9,18 @@
 
 .resume-card {
   display: flex;
-  height: 360px;
   width: 1000px;
-  /* margin: 80px 0; */
+  align-items: stretch;
+  margin: 80px 0;
 }
 
 .resume-bullets {
-  box-shadow: 15px 0 9px -15px #1f2235;
   height: 100%;
   width: 320px;
 }
 
 .resume-bullet-details {
+  box-shadow: -15px 0 9px -15px #1f2235;
   flex-grow: 1;
   width: 600px;
   overflow: hidden;
@@ -148,6 +148,11 @@
   border-radius: 50%;
   background-color: #ff5823;
 }
+.resume-screen-container{
+  display: flex;
+  flex-direction: column;
+  row-gap: 20px;
+}
 
 .resume-sub-heading {
   font-size: 14px;
@@ -162,6 +167,7 @@
 }
 
 .heading-date {
+  width: fit-content;
   background-color: #ff5823;
   padding: 4px 12px;
   font-size: 14px;
@@ -180,6 +186,7 @@
   display: flex;
   flex-direction: row;
   align-items: center;
+  row-gap: 20px;
   justify-content: space-between;
   flex-wrap: wrap;
 }
@@ -216,6 +223,7 @@
 }
 
 /* IPAD RESPONSIVENESS */
+
 @media only screen and (max-width: 1023px) {
   .resume-content {
     display: flex;
@@ -228,16 +236,17 @@
   }
 
   .resume-card {
-    height: fit-content;
     display: flex;
     flex-direction: column;
     margin: 30px 0;
-    align-items: center;
     width: 90%;
   }
 
   .resume-bullet-details {
-    height: 360px;
+    /* height: 360px; */
+    box-shadow: 0 0 9px -15px #1f2235;
+    display: flex;
+    row-gap: 20px;
     padding: 0;
     width: fit-content;
   }
@@ -249,5 +258,14 @@
 
   .selected-bullet {
     width: 100%;
+  }
+}
+
+@media screen and (max-width: 325px) and (min-width: 315px){
+  .resume-card{
+    align-items: stretch;
+  }
+  .resume-main-heading{
+    display: block;
   }
 }

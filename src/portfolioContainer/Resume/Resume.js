@@ -1,4 +1,4 @@
-import React, { useState} from "react";
+import React from "react";
 import ScreenHeading from "../../utilities/ScreenHeading/ScreenHeading";
 // import ScrollService from "../../utilities/ScrollService";
 // import Animations from "../../utilities/Animations";
@@ -6,9 +6,9 @@ import "./Resume.css";
 
 const Resume = (props) => {
   /* STATES */
-  const [selectedBulletIndex, setSelectedBulletIndex] = useState(0);
-  const [carousalOffsetStyle, setCarousalOffsetStyle] = useState({});
 
+
+  
     // let fadeInScreenHandler = (screen) => {
     //   if (screen.fadeInScreen !== props.id) return;
 
@@ -46,8 +46,7 @@ const Resume = (props) => {
   const resumeBullets = [
     { label: "Education", logoSrc: "education.svg" },
     { label: "Programming Skills", logoSrc: "programming-skills.svg" },
-    { label: "Projects", logoSrc: "projects.svg" },
-    { label: "Projects", logoSrc: "projects.svg" },
+    { label: "Projects", logoSrc: "projects.svg" }
   ];
 
   //here we have
@@ -109,7 +108,8 @@ const Resume = (props) => {
   ];
 
   const resumeDetails = [
-    <div className="resume-education-screen-container" key="education">
+    // <div className={toggleState===0?"active-resume" : "deactive-resume"} >
+    <div className="resume-screen-container" key="education">
       <ResumeHeading
         heading={"Sanjay Ghodawat Institutions, Kolhapur"}
         subHeading={"BACHELOR OF Computer Science and Engineering"}
@@ -129,15 +129,19 @@ const Resume = (props) => {
         fromDate={"2013"}
         toDate={"2014"}
       />
-    </div>,
+    </div>
+    // </div>
+    ,
 
     
 
     /* PROGRAMMING SKILLS */
+    // <div className={toggleState===1?"active-resume" : "deactive-resume"} >
     <div
-      className="resume-program-screen-container programming-skills-container"
+      className="programming-skills-container"
       key="programming-skills"
-    >
+      >
+      {/* programming-skills-container" */}
       {programmingSkillsDetails.map((skill, index) => (
         <div className="skill-parent" key={index}>
           <div className="heading-bullet"></div>
@@ -150,10 +154,13 @@ const Resume = (props) => {
           </div>
         </div>
       ))}
-    </div>,
+    </div>
+    // </div>
+    ,
 
     /* PROJECTS */
-    <div className="resume-projects-screen-container" key="projects">
+    // <div className={toggleState===2?"active-resume" : "deactive-resume"} >
+    <div className="resume-screen-container" key="projects">
       {projectsDetails.map((projectsDetails, index) => (
         <ResumeHeading
           key={index}
@@ -164,58 +171,52 @@ const Resume = (props) => {
           toDate={projectsDetails.duration.toDate}
         />
       ))}
-    </div>,
+    </div>
+    // </div>
+    ,
 
     
   ];
 
-  const handleCarousal = (index) => {
-    let offsetHeight = 360;
 
-    let newCarousalOffset = {
-      style: { transform: "translateY(" + index * offsetHeight * -1 + "px)" },
-    };
-
-    setCarousalOffsetStyle(newCarousalOffset);
-    setSelectedBulletIndex(index);
-  };
-
-  const getBullets = () => {
-    return resumeBullets.map((bullet, index) => (
-      <div
-        onClick={() => handleCarousal(index)}
-        className={
-          index === selectedBulletIndex ? "bullet selected-bullet" : "bullet"
+  const getBullet = (index)=>{
+    return (<div
+        className={"bullet selected-bullet"
         }
         key={index}
       >
         <img
           className="bullet-logo"
-          src={require(`../../assets/Home/${bullet.logoSrc}`).default}
+          src={require(`../../assets/Home/${resumeBullets[index].logoSrc}`).default}
           alt="B"
         />
-        <span className="bullet-label">{bullet.label}</span>
+        <span className="bullet-label">{resumeBullets[index].label}</span>
       </div>
-    ));
-  };
+    )}
 
-  const getResumeScreens = () => {
+  const getResumeScreensDetails = (index) => {
     return (
       <div
-        style={carousalOffsetStyle.style}
         className="resume-details-carousal"
       >
-        {resumeDetails.map((ResumeDetail1) => ResumeDetail1)}
+        {resumeDetails[index]}
       </div>
     );
   };
 
-  // useEffect(() => {
-  //   return () => {
-  //     /* UNSUBSCRIBE THE SUBSCRIPTIONS */
-  //     // fadeInSubscription.unsubscribe();
-  //   };
-  // }, [fadeInSubscription]);
+  const resumeColumn = ()=>{
+    return resumeBullets.map((bullet,index) => (
+      <div className="resume-card">
+          <div className="resume-bullets">
+            <div className="bullet-container">
+              {/* <div className="bullet-icons"></div> */}
+              <div className="bullets">{getBullet(index)}</div>
+            </div>
+          </div>
+          <div className="resume-bullet-details">{getResumeScreensDetails(index)}</div>
+        </div>
+    ))
+  };
 
   return (
     <div
@@ -224,16 +225,9 @@ const Resume = (props) => {
     >
       <div className="resume-content">
         <ScreenHeading title={"Resume"} subHeading={"My formal Bio Details"} />
-        <div className="resume-card">
-          <div className="resume-bullets">
-            <div className="bullet-container">
-              <div className="bullet-icons"></div>
-              <div className="bullets">{getBullets()}</div>
-            </div>
-          </div>
 
-          <div className="resume-bullet-details">{getResumeScreens()}</div>
-        </div>
+        {resumeColumn()}
+
       </div>
     </div>
   );
