@@ -1,34 +1,89 @@
-import React from 'react'
+import React, { useState, useEffect } from "react";
+import {
+  TOTAL_SCREENS,
+  GET_SCREEN_INDEX,
+} from "../../utilities/commonUtils";
+import ScrollService from "../../utilities/scrollService";
 import "./Header.css";
 
 export default function Header() {
+  const [selectedScreen, setSelectedScreen] = useState(0);
+  const [showHeaderOptions, setShowHeaderOptions] = useState(false);
+
+  const updateCurrentScreen = (currentScreen) => {
+    if (!currentScreen || !currentScreen.screenInView) return;
+
+    let screenIndex = GET_SCREEN_INDEX(currentScreen.screenInView);
+    if (screenIndex < 0) return;
+  };
+  let currentScreenSubscription =
+    ScrollService.currentScreenBroadcaster.subscribe(updateCurrentScreen);
+
+  const getHeaderOptions = () => {
+    return TOTAL_SCREENS.map((Screen, i) => (
+      <div
+      key={Screen.screen_name}
+      className={getHeaderOptionsClasses(i)}
+      onClick={() => switchScreen(i, Screen)}
+      >
+        {console.log(i,Screen)}
+        <span>{Screen.screen_name}</span>
+      </div>
+    ));
+  };
+
+  const getHeaderOptionsClasses = (index) => {
+    let classes = "header-option ";
+    if (index < TOTAL_SCREENS.length - 1) classes += " header-option-seperator";
+
+    if (selectedScreen === index) classes += " selected-header-option";
+
+    return classes;
+  };
+
+  const switchScreen = (index, screen) => {
+    let screenComponent = document.getElementById(screen.screen_name);
+    if (!screenComponent) return;
+
+    screenComponent.scrollIntoView({ behavior: "smooth" });
+    setSelectedScreen(index);
+    setShowHeaderOptions(false);
+  };
+
+  useEffect(() => {
+    return () => {
+      currentScreenSubscription.unsubscribe();
+    };
+  }, [currentScreenSubscription]);
+
   return (
-      <div className="header-container">
-        <div className="header-parent">
-        <div class="header-hamburger">
-            <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="bars" class="svg-inline--fa fa-bars fa-w-14 header-hamburger-bars" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
-              <path fill="#ffffff" d="M16 132h416c8.837 0 16-7.163 16-16V76c0-8.837-7.163-16-16-16H16C7.163 60 0 67.163 0 76v40c0 8.837 7.163 16 16 16zm0 160h416c8.837 0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837 0-16 7.163-16 16v40c0 8.837 7.163 16 16 16zm0 160h416c8.837 0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837 0-16 7.163-16 16v40c0 8.837 7.163 16 16 16z"></path>
-            </svg>
-          </div>
-          <div class="header-logo">
-            <span>My Resume</span>
-          </div>
-          <div class="header-options">
-            <div class="header-option header-option-seperator selected-header-option ">
-              <span>Home</span>
-            </div>
-            <div class="header-option header-option-seperator ">
-              <span>AboutMe</span>
-            </div>
-            <div class="header-option header-option-seperator ">
-              <span>Resume</span>
-            </div>
-            <div class="header-option ">
-              <span>ContactMe</span>
-            </div>
-          </div>
+    <div
+      className="header-container"
+      onClick={() => setShowHeaderOptions(!showHeaderOptions)}
+    >
+      <div className="header-parent">
+        <div
+          className="header-hamburger"
+          onClick={() => setShowHeaderOptions(!showHeaderOptions)}
+        >
+          <img className="header-hamburger-bars"
+            src={require(`../../assets/Home/menu.svg`).default}
+            alt="B"
+          />
+        </div>
+        <div className="header-logo">
+          <span>MyResume</span>
+        </div>
+        <div
+          className={
+            showHeaderOptions
+              ? "header-options show-hamburger-options"
+              : "header-options"
+          }
+        >
+          {getHeaderOptions()}
         </div>
       </div>
-      
-  )
+    </div>
+  );
 }
