@@ -1,0 +1,11 @@
+.pagefooter-container{
+  justify-content: space-between;
+  min-height: 450px;
+  background-color: #081f6b;
+  z-index: -1;
+}
+
+.pagefooter-container svg{
+  margin-top: -70px;
+  z-index: 0;
+}
