@@ -43,13 +43,11 @@ export default function Profile() {
                 {" "}
                 Hire Me{" "}
               </button>
-                {/* <a href="../../../assets/Home/bg.jpg" download="Rahul_Patil"> */}
-                <a href="../../../assets/Home/bg.jpg" download>download</a>
-                {/* <input type="button" value="Download Now!" onclick="window.location = '../../../assets/RahulPatil.pdf';"/> */}
-                  {/* <button className="btn highlighted-btn">
+                  <a href="RahulPatil.pdf" download="RahulPatil.pdf">
+                  <button className="btn highlighted-btn">
                     Get Resume
                   </button>
-                </a> */}
+                </a>
             </div>
           </div>
           <div className="profile-picture">
