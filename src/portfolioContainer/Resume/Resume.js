@@ -62,6 +62,13 @@ const Resume = (props) => {
 
   const projectsDetails = [
     {
+      title: "Lyrics Finder App",
+      duration: { fromDate: "2021", toDate: "2021" },
+      description:
+        "Search and Fetch lyrics data using API.",
+      subHeading: "Technologies Used: React, HTML, CSS.",
+    },
+    {
       title: "Personal Portfolio Website",
       duration: { fromDate: "2021", toDate: "2021" },
       description:
